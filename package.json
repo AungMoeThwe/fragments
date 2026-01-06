@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/AungMoeThwe/fragments/issues"
   },
-  "homepage": "https://github.com/AungMoeThwe/fragments#readme"
+  "homepage": "https://github.com/AungMoeThwe/fragments#readme",
+  "devDependencies": {
+    "prettier": "3.7.4"
+  }
 }
