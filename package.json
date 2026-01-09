@@ -12,7 +12,7 @@
     "url": "git+https://github.com/AungMoeThwe/fragments.git"
   },
   "keywords": [],
-  "author": "Aung MoeThwe",
+  "author": "Aung Moe Thwe",
   "license": "UNLICENSED",
   "type": "commonjs",
   "bugs": {
@@ -26,8 +26,12 @@
     "prettier": "3.7.4"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.2.1",
+    "helmet": "^8.1.0",
     "pino": "^10.1.0",
     "pino-http": "^11.0.0",
-    "pino-pretty": "^13.1.3"
+    "pino-pretty": "^13.1.3",
+    "stoppable": "^1.1.0"
   }
 }
