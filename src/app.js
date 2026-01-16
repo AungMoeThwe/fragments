@@ -5,7 +5,6 @@ const cors = require('cors');
 const helmet = require('helmet');
 
 // author and version from our package.json file
-// TODO: make sure you have updated your name in the `author` section
 const { author, version } = require('../package.json');
 
 const logger = require('./logger');
@@ -38,7 +37,6 @@ app.get('/', (req, res) => {
     status: 'ok',
     description: 'fragments service running normally',
     author,
-    // TODO: change this to use your GitHub username!
     githubUrl: 'https://github.com/AungMoeThwe/fragments',
     version,
     timestamp: new Date().toISOString(),
