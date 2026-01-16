@@ -3,6 +3,7 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+const compression = require('compression');
 
 // author and version from our package.json file
 const { author, version } = require('../package.json');
@@ -16,6 +17,10 @@ const pino = require('pino-http')({
 // Create an express app instance we can use to attach middleware and HTTP routes
 const app = express();
 
+// Passport.js setup
+const passport = require('passport');
+const authenticate = require('./auth');
+
 // Use pino logging middleware
 app.use(pino);
 
@@ -25,23 +30,15 @@ app.use(helmet());
 // Use CORS middleware so we can make requests across origins
 app.use(cors());
 
-// Define a simple health check route. If the server is running
-// we'll respond with a 200 OK.  If not, the server isn't healthy.
-app.get('/', (req, res) => {
-  // Clients shouldn't cache this response (always request it fresh)
-  // See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#controlling_caching
-  res.setHeader('Cache-Control', 'no-cache');
+// Use gzip/deflate compression middleware
+app.use(compression());
 
-  // Send a 200 'OK' response with info about our repo
-  res.status(200).json({
-    status: 'ok',
-    description: 'fragments service running normally',
-    author,
-    githubUrl: 'https://github.com/AungMoeThwe/fragments',
-    version,
-    timestamp: new Date().toISOString(),
-  });
-});
+// Set up our passport authentication middleware
+passport.use(authenticate.strategy());
+app.use(passport.initialize());
+
+// Define our routes
+app.use('/', require('./routes'));
 
 // Add 404 middleware to handle any requests for resources that can't be found
 app.use((req, res) => {
