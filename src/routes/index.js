@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
   res.status(200).json({
     status: 'ok',
     description: 'fragments service running normally',
-    author: 'Aung Moe Thwe',
+    author,
     githubUrl: 'https://github.com/AungMoeThwe/fragments',
     version,
     timestamp: new Date().toISOString(),
