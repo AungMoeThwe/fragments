@@ -4,6 +4,9 @@ const { createErrorResponse } = require('../response');
 const hash = require('../hash');
 const logger = require('../logger');
 
+const error = new Error('Unable to authenticate user');
+error.status = 500;
+
 /**
  * @param {'bearer' | 'http'} strategyName - the passport strategy to use
  * @returns {Function} - the middleware function to use for authentication
@@ -20,7 +23,7 @@ module.exports = (strategyName) => {
       // Something failed, let the the error handling middleware deal with it
       if (err) {
         logger.warn({ err }, 'error authenticating user');
-        return next(createErrorResponse(500, 'Unable to authenticate user'));
+        return next(error);
       }
 
       // Not authorized, return a 401
