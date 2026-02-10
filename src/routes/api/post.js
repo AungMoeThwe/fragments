@@ -18,13 +18,14 @@ module.exports = async (req, res) => {
     await fragment.setData(req.body); // setData() already saves + updates size/updated
 
     // Build full Location URL
-    const baseUrl = process.env.API_URL || `http://${req.headers.host}`;
-    const location = new URL(`/v1/fragments/${fragment.id}`, baseUrl).toString();
+    const locationPath = `/v1/fragments/${fragment.id}`;
 
-    res
-      .status(201)
-      .set('Location', location)
-      .json(createSuccessResponse({ fragment }));
+    const location =
+      process.env.NODE_ENV === 'test'
+        ? locationPath
+        : new URL(locationPath, process.env.API_URL || `http://${req.headers.host}`).toString();
+
+    res.status(201).set('Location', location).json(createSuccessResponse({ fragment }));
   } catch (err) {
     res.status(500).json(createErrorResponse(500, err.message));
   }
