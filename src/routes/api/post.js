@@ -2,9 +2,6 @@ const contentType = require('content-type');
 const { Fragment } = require('../../model/fragment');
 const { createSuccessResponse, createErrorResponse } = require('../../response');
 
-
-
-
 module.exports = async (req, res) => {
   try {
     const { type } = contentType.parse(req);
@@ -18,10 +15,11 @@ module.exports = async (req, res) => {
     }
 
     const fragment = new Fragment({ ownerId: req.user, type });
-    const apiUrl = process.env.API_URL || `http://${req.headers.host}`;
-    const location = new URL(`/v1/fragments/${fragment.id}`, apiUrl).toString();
-    await fragment.save();
-    await fragment.setData(req.body);
+    await fragment.setData(req.body); // setData() already saves + updates size/updated
+
+    // Build full Location URL
+    const baseUrl = process.env.API_URL || `http://${req.headers.host}`;
+    const location = new URL(`/v1/fragments/${fragment.id}`, baseUrl).toString();
 
     res
       .status(201)
