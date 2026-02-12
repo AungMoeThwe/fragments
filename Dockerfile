@@ -69,3 +69,6 @@ COPY ./tests/.htpasswd ./tests/.htpasswd
 
 # This documents that the container listens on port 8080
 EXPOSE 8080
+
+# Start the container by running our server
+CMD npm start
