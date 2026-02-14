@@ -18,7 +18,7 @@ FROM node:22.12.0
 # -----------------------------------------------------------------------------
 # Image metadata
 # -----------------------------------------------------------------------------
-LABEL maintainer="Aung Moe Thwe <your-email@example.com>"
+LABEL maintainer="Aung Moe Thwe <amthwe@myseneca.com>"
 LABEL description="Fragments Node.js Microservice - Dockerized version"
 
 # -----------------------------------------------------------------------------
