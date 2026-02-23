@@ -3,6 +3,7 @@
 # This reduces image size and build context size
 # -----------------------------------------------------------------------------
 
+.git
 .github/
 .vscode/
 coverage/
@@ -15,3 +16,6 @@ eslint.config.mjs
 .gitignore
 .prettier*
 jest*
+npm-debug.log
+Dockerfile
+docker-compose*
