@@ -29,12 +29,12 @@ ENV NODE_ENV=production
 COPY package*.json ./
 
 # Copy prod node_modules from deps stage
-COPY --from=deps /app/node_modules ./node_modules
+COPY --chown=node:node --from=deps /app/node_modules ./node_modules
 
 # Copy only the server source
-COPY ./src ./src
+COPY --chown=node:node ./src ./src
 
-COPY ./tests/.htpasswd ./tests/.htpasswd
+COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
 
 USER node
 
