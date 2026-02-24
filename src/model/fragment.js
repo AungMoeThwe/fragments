@@ -158,14 +158,29 @@ async setData(data) {
    * @param {string} value a Content-Type value (e.g., 'text/plain' or 'text/plain; charset=utf-8')
    * @returns {boolean} true if we support this Content-Type (i.e., type/subtype)
    */
+  // static isSupportedType(value) {
+  //   try {
+  //     const { type } = contentType.parse(value);
+  //     return type === 'text/plain';
+  //   } catch {
+  //     return false;
+  //   }
+  // }
+
+  // ABOVE IS THE ORIGINAL, BELOW IS THE UPDATED VERSION TO SUPPORT ALL text/* AND application/json INSTEAD OF JUST PLAIN TEXT FOR LAB6 ASSIGNMENT2 INITIAL IMPLEMENTATION 
+  
   static isSupportedType(value) {
-    try {
-      const { type } = contentType.parse(value);
-      return type === 'text/plain';
-    } catch {
-      return false;
-    }
+  try {
+    const { type } = contentType.parse(value);
+
+    return (
+      type.startsWith('text/') ||
+      type === 'application/json'
+    );
+  } catch {
+    return false;
   }
+}
 }
 
 module.exports.Fragment = Fragment;
