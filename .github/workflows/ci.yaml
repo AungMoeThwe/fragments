@@ -102,5 +102,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
+          # to run on apple silicon
+          platforms: linux/amd64,linux/arm64
           # Use 3 tags :sha-sha-, :main, and :latest
           tags: ${{ env.DOCKERHUB_REPO }}:${{ env.SHA_TAG }}, ${{ env.DOCKERHUB_REPO }}:main, ${{ env.DOCKERHUB_REPO }}:latest
