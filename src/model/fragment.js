@@ -148,10 +148,30 @@ async setData(data) {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    // For Assignment 1 (early): only text/plain required
-    // Later labs add conversions; for now just return its own type.
-    return [this.mimeType];
+  const mime = this.mimeType;
+
+  if (mime === 'text/plain') {
+    return ['text/plain'];
   }
+
+  if (mime === 'text/markdown') {
+    return ['text/markdown', 'text/html', 'text/plain'];
+  }
+
+  if (mime === 'text/html') {
+    return ['text/html', 'text/plain'];
+  }
+
+  if (mime === 'text/csv') {
+    return ['text/csv', 'text/plain', 'application/json'];
+  }
+
+  if (mime === 'application/json') {
+    return ['application/json', 'text/plain'];
+  }
+
+  return [mime];
+}
 
   /**
    * Returns true if we know how to work with this content type
