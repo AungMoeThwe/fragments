@@ -24,4 +24,22 @@ describe('POST /v1/fragments', () => {
     expect(res.body.status).toBe('ok');
     expect(res.body.fragment.id).toBeDefined();
   });
+
+  test('returns 415 for unsupported content type', async () => {
+  const res = await request(app)
+    .post('/v1/fragments')
+    .auth('test-user1@fragments-testing.com', 'test-password1')
+    .set('Content-Type', 'application/msword')
+    .send('data');
+  expect(res.statusCode).toBe(415);
+});
+
+test('returns 400 for invalid Content-Type header', async () => {
+  const res = await request(app)
+    .post('/v1/fragments')
+    .auth('test-user1@fragments-testing.com', 'test-password1')
+    .set('Content-Type', 'invalid-type')
+    .send('hello');
+  expect(res.statusCode).toBe(400);
+});
 });

@@ -5,13 +5,13 @@ const { Fragment } = require('../../src/model/fragment');
 const wait = async (ms = 50) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const validTypes = [
-  `text/plain`,
+  'text/plain',
+  'text/markdown',
+  'text/html',
+  'text/csv',
+  'application/json',
   /*
-   Currently, only text/plain is supported. Others will be added later.
-
-  `text/markdown`,
-  `text/html`,
-  `application/json`,
+  Images are not supported yet. markdown, html, csv and application/json added in assignment2
   `image/png`,
   `image/jpeg`,
   `image/webp`,
@@ -121,6 +121,19 @@ describe('Fragment class', () => {
     test('common text types are supported, with and without charset', () => {
       expect(Fragment.isSupportedType('text/plain')).toBe(true);
       expect(Fragment.isSupportedType('text/plain; charset=utf-8')).toBe(true);
+    });
+
+    test('text/markdown is supported', () => {
+      expect(Fragment.isSupportedType('text/markdown')).toBe(true);
+    });
+
+    test('application/json is supported', () => {
+      expect(Fragment.isSupportedType('application/json')).toBe(true);
+    });
+
+    test('application/json is not a text type', () => {
+      const f = new Fragment({ ownerId: '1234', type: 'application/json', size: 0 });
+      expect(f.isText).toBe(false);
     });
 
     test('other types are not supported', () => {
