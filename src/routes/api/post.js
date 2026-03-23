@@ -32,7 +32,7 @@ module.exports = async (req, res) => {
 
   try {
     // 4) Create + store fragment
-    const fragment = new Fragment({ ownerId, type });
+    const fragment = new Fragment({ ownerId, type: req.headers['content-type'] });
 
     // setData() should write data + update size + save metadata
     await fragment.setData(req.body);
