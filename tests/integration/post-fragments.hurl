@@ -5,7 +5,7 @@ POST http://localhost:8080/v1/fragments
 Content-Type: text/plain
 # Include HTTP Basic Auth credentials
 [BasicAuth]
-user1@email.com:password1
+test-user1@fragments-testing.com:test-password1
 # Body of the request goes in ```...``` when it's a string
 `This is a fragment!`
 
