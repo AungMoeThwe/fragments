@@ -10,7 +10,8 @@
     "lint": "eslint \"./src/**/*.js\" \"tests/**/*.js\"",
     "start": "node src/index.js",
     "dev": "FRAGMENTS_LOG_LEVEL=debug nodemon ./src/index.js --watch src",
-    "debug": "FRAGMENTS_LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 ./src/index.js --watch src"
+    "debug": "FRAGMENTS_LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 ./src/index.js --watch src",
+    "test:integration": "hurl --test --glob \"tests/integration/**/*.hurl\""
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "homepage": "https://github.com/AungMoeThwe/fragments#readme",
   "devDependencies": {
     "@eslint/js": "^9.39.2",
+    "@orangeopensource/hurl": "^7.1.7",
     "eslint": "^9.39.2",
     "globals": "^17.0.0",
     "jest": "^30.2.0",
