@@ -65,3 +65,33 @@ jobs:
           push: true
           # Use the git tag version and `latest`
           tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:${{ env.VERSION_TAG }}, ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:latest
+
+      # Update the ECS task definition with the new image and environment variables
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: update-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPO: fragments
+          VERSION_TAG: ${{ github.ref_name }}
+        with:
+          task-definition: fragments-definition.json
+          container-name: fragments-container
+          image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:${{ env.VERSION_TAG }}
+          environment-variables: |
+            FRAGMENTS_LOG_LEVEL=debug
+            NODE_ENV=production
+            PORT=80
+            AWS_REGION=us-east-2
+            API_URL=http://fragments-lb-1725864673.us-east-2.elb.amazonaws.com
+            AWS_COGNITO_POOL_ID=${{ secrets.AWS_COGNITO_POOL_ID }}
+            AWS_COGNITO_CLIENT_ID=${{ secrets.AWS_COGNITO_CLIENT_ID }}
+
+      # Deploy the updated task definition to ECS
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.update-task-def.outputs.task-definition }}
+          cluster: fragments-cluster
+          service: fragments-service
+          wait-for-service-stability: true
