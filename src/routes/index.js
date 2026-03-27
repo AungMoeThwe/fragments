@@ -1,6 +1,7 @@
 // src/routes/index.js
 
 const express = require('express');
+const { hostname } = require('os');
 
 // version and author from package.json
 const { version, author } = require('../../package.json');
@@ -35,6 +36,7 @@ router.get('/', (req, res) => {
       author,
       githubUrl: 'https://github.com/AungMoeThwe/fragments',
       version,
+      hostname: hostname(),
       timestamp: new Date().toISOString(),
     })
   );
