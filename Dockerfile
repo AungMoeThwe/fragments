@@ -36,7 +36,7 @@ COPY --chown=node:node ./src ./src
 
 COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
 
-USER node
+#USER node
 
 EXPOSE 8080
 CMD ["node", "src/index.js"]
