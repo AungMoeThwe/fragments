@@ -78,6 +78,5 @@
   },
   "registeredAt": "2026-03-27T16:29:05.959Z",
   "registeredBy": "arn:aws:iam::989864148006:user/odl_user_2023472",
-  "enableFaultInjection": false,
   "tags": []
 }
