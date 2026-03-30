@@ -1,7 +1,7 @@
 // src/model/data/aws/index.js
 
 const s3Client = require('./s3Client');
-const { PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3');
+const { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3');
 const logger = require('../../logger');
 
 // XXX: temporary use of memory-db until we add DynamoDB
@@ -115,14 +115,24 @@ async function listFragments(ownerId, expand = false) {
   return fragments.map((fragment) => JSON.parse(fragment).id);
 }
 
-// Delete a fragment's metadata and data from memory db. Returns a Promise
-function deleteFragment(ownerId, id) {
-  return Promise.all([
-    // Delete metadata
-    metadata.del(ownerId, id),
-    // Delete data
-    data.del(ownerId, id),
-  ]);
+// Delete a fragment's metadata from memory db and data from S3
+async function deleteFragment(ownerId, id) {
+  const params = {
+    Bucket: process.env.AWS_S3_BUCKET_NAME,
+    Key: `${ownerId}/${id}`,
+  };
+
+  const command = new DeleteObjectCommand(params);
+
+  try {
+    await s3Client.send(command);
+  } catch (err) {
+    const { Bucket, Key } = params;
+    logger.error({ err, Bucket, Key }, 'Error deleting fragment data from S3');
+    throw new Error('unable to delete fragment data');
+  }
+
+  return metadata.del(ownerId, id);
 }
 
 module.exports.listFragments = listFragments;
