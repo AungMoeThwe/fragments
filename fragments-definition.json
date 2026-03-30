@@ -16,7 +16,9 @@
         }
       ],
       "essential": true,
-      "environment": [],
+      "environment": [
+        { "name": "AWS_S3_BUCKET_NAME", "value": "aungmoe.thwe-fragments" }
+      ],
       "environmentFiles": [],
       "mountPoints": [],
       "volumesFrom": [],

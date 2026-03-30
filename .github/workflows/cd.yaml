@@ -79,13 +79,14 @@ jobs:
           container-name: fragments-container
           image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPO }}:${{ env.VERSION_TAG }}
           environment-variables: |
-            FRAGMENTS_LOG_LEVEL=debug
+            FRAGMENTS_LOG_LEVEL=info
             NODE_ENV=production
             PORT=80
             AWS_REGION=us-east-2
             API_URL=http://fragments-lb-1725864673.us-east-2.elb.amazonaws.com
             AWS_COGNITO_POOL_ID=${{ secrets.AWS_COGNITO_POOL_ID }}
             AWS_COGNITO_CLIENT_ID=${{ secrets.AWS_COGNITO_CLIENT_ID }}
+            AWS_S3_BUCKET_NAME=aungmoe.thwe-fragments
 
       # Deploy the updated task definition to ECS
       - name: Deploy Amazon ECS task definition
