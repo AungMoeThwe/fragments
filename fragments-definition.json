@@ -17,7 +17,8 @@
       ],
       "essential": true,
       "environment": [
-        { "name": "AWS_S3_BUCKET_NAME", "value": "aungmoe.thwe-fragments" }
+        { "name": "AWS_S3_BUCKET_NAME", "value": "aungmoe.thwe-fragments" },
+        { "name": "AWS_DYNAMODB_TABLE_NAME", "value": "fragments" }
       ],
       "environmentFiles": [],
       "mountPoints": [],

@@ -87,6 +87,7 @@ jobs:
             AWS_COGNITO_POOL_ID=${{ secrets.AWS_COGNITO_POOL_ID }}
             AWS_COGNITO_CLIENT_ID=${{ secrets.AWS_COGNITO_CLIENT_ID }}
             AWS_S3_BUCKET_NAME=aungmoe.thwe-fragments
+            AWS_DYNAMODB_TABLE_NAME=fragments
 
       # Deploy the updated task definition to ECS
       - name: Deploy Amazon ECS task definition
