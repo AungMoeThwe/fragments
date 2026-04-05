@@ -106,8 +106,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           # Use 3 tags :sha-sha-, :main, and :latest
           tags: ${{ env.DOCKERHUB_REPO }}:${{ env.SHA_TAG }}, ${{ env.DOCKERHUB_REPO }}:main, ${{ env.DOCKERHUB_REPO }}:latest
-        
-    integration-tests:
+         
+  integration-tests:
     name: Integration Tests
     runs-on: ubuntu-latest
     steps:
