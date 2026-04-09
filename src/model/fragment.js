@@ -169,6 +169,9 @@ async setData(data) {
   if (mime === 'application/json') {
     return ['application/json', 'text/plain'];
   }
+  if (['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif'].includes(mime)) {
+    return ['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif'];
+  }
 
   return [mime];
 }
@@ -192,10 +195,14 @@ async setData(data) {
   static isSupportedType(value) {
   try {
     const { type } = contentType.parse(value);
-
     return (
       type.startsWith('text/') ||
-      type === 'application/json'
+      type === 'application/json' ||
+      type === 'image/png' ||
+      type === 'image/jpeg' ||
+      type === 'image/webp' ||
+      type === 'image/avif' ||
+      type === 'image/gif'
     );
   } catch {
     return false;
