@@ -53,9 +53,7 @@ class Fragment {
     if (!result) return [];
 
     // memory listFragments() returns JSON strings when expand=true
-    if (expand) {
-      return result.map((s) => new Fragment(JSON.parse(s)));
-    }
+    if (expand) { return result.map((s) => new Fragment(typeof s === 'string' ? JSON.parse(s) : s));}
 
     // expand=false already returns ids
     return result;
