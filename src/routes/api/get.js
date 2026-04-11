@@ -2,23 +2,32 @@
 
 const { Fragment } = require('../../model/fragment');
 const { createSuccessResponse, createErrorResponse } = require('../../response');
+const logger = require('../../logger');
 
-/**
- * Get a list of fragments for the current user
- */
 module.exports = async (req, res) => {
   try {
-    // expand=1 returns full fragment objects
     const expand = req.query.expand === '1';
+    const { query } = req.query;
 
-    const fragments = await Fragment.byUser(req.user, expand);
+    let fragments = await Fragment.byUser(req.user, expand);
 
-    res.status(200).json(
-      createSuccessResponse({
-        fragments,
-      })
-    );
+    // If a search query is provided, filter fragments
+    if (query && expand) {
+      const q = query.toLowerCase();
+      fragments = fragments.filter((fragment) => {
+        return (
+          fragment.type?.toLowerCase().includes(q) ||
+          fragment.id?.toLowerCase().includes(q) ||
+          fragment.size?.toString().includes(q)
+        );
+      });
+    }
+
+    logger.debug({ ownerId: req.user, expand, query }, 'GET /fragments');
+
+    res.status(200).json(createSuccessResponse({ fragments }));
   } catch (err) {
+    logger.error({ err }, 'error getting fragments');
     res.status(500).json(createErrorResponse(500, err.message));
   }
 };
