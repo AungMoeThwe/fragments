@@ -10,13 +10,11 @@ const validTypes = [
   'text/html',
   'text/csv',
   'application/json',
-  /*
-  Images are not supported yet. markdown, html, csv and application/json added in assignment2
-  `image/png`,
-  `image/jpeg`,
-  `image/webp`,
-  `image/gif`,
-  */
+  'image/png',
+  'image/jpeg',
+  'image/webp',
+  'image/gif',
+  'image/avif',
 ];
 
 describe('Fragment class', () => {
@@ -25,6 +23,7 @@ describe('Fragment class', () => {
   });
 
   describe('Fragment()', () => {
+
     test('ownerId and type are required', () => {
       expect(() => new Fragment({})).toThrow();
     });
@@ -136,6 +135,14 @@ describe('Fragment class', () => {
       expect(f.isText).toBe(false);
     });
 
+    test('image types are supported', () => {
+      expect(Fragment.isSupportedType('image/png')).toBe(true);
+      expect(Fragment.isSupportedType('image/jpeg')).toBe(true);
+      expect(Fragment.isSupportedType('image/webp')).toBe(true);
+      expect(Fragment.isSupportedType('image/gif')).toBe(true);
+      expect(Fragment.isSupportedType('image/avif')).toBe(true);
+    });
+
     test('other types are not supported', () => {
       expect(Fragment.isSupportedType('application/octet-stream')).toBe(false);
       expect(Fragment.isSupportedType('application/msword')).toBe(false);
@@ -181,7 +188,32 @@ describe('Fragment class', () => {
       });
       expect(fragment.formats).toEqual(['text/plain']);
     });
-  });
+
+    test('formats returns correct conversions for text/markdown', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'text/markdown', size: 0 });
+      expect(fragment.formats).toEqual(['text/markdown', 'text/html', 'text/plain']);
+    });
+
+    test('formats returns correct conversions for text/html', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'text/html', size: 0 });
+      expect(fragment.formats).toEqual(['text/html', 'text/plain']);
+    });
+
+    test('formats returns correct conversions for text/csv', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'text/csv', size: 0 });
+      expect(fragment.formats).toEqual(['text/csv', 'text/plain', 'application/json']);
+    });
+
+    test('formats returns correct conversions for application/json', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'application/json', size: 0 });
+      expect(fragment.formats).toEqual(['application/json', 'text/plain']);
+    });
+
+    test('formats returns correct conversions for image/png', () => {
+      const fragment = new Fragment({ ownerId: '1234', type: 'image/png', size: 0 });
+      expect(fragment.formats).toEqual(['image/png', 'image/jpeg', 'image/webp', 'image/gif', 'image/avif']);
+    });
+    });
 
   describe('save(), getData(), setData(), byId(), byUser(), delete()', () => {
     test('byUser() returns an empty array if there are no fragments for this user', async () => {

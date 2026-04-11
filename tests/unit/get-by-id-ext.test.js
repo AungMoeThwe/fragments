@@ -115,4 +115,34 @@ describe('GET /v1/fragments/:id.ext', () => {
     expect(res.headers['content-type']).toContain('application/json');
   });
 
+  // --- text/html -> text/plain ---
+  test('returns html fragment as plain text with .txt extension', async () => {
+    const id = await createFragment('text/html', '<h1>Hello</h1>');
+    const res = await request(app)
+      .get(`/v1/fragments/${id}.txt`)
+      .auth(...AUTH);
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['content-type']).toContain('text/plain');
+  });
+
+  // --- text/csv -> text/plain ---
+  test('returns csv fragment as plain text with .txt extension', async () => {
+    const id = await createFragment('text/csv', 'name,age\nAung,25');
+    const res = await request(app)
+      .get(`/v1/fragments/${id}.txt`)
+      .auth(...AUTH);
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['content-type']).toContain('text/plain');
+  });
+
+  // --- text/csv -> application/json ---
+  test('converts csv fragment to json', async () => {
+    const id = await createFragment('text/csv', 'name,age\nAung,25');
+    const res = await request(app)
+      .get(`/v1/fragments/${id}.json`)
+      .auth(...AUTH);
+    expect(res.statusCode).toBe(200);
+    expect(res.headers['content-type']).toContain('application/json');
+  });
+
 });
